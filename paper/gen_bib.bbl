@@ -1,0 +1,162 @@
+\begin{thebibliography}{10}
+
+\bibitem{apostolopoulos2002multiple}
+J.~Apostolopoulos, T.~Wong, W.~Tan, and S.~Wee.
+\newblock On multiple description streaming with content delivery networks.
+\newblock In {\em INFOCOM 2002. Twenty-First Annual Joint Conference of the
+  IEEE Computer and Communications Societies. Proceedings. IEEE}, volume~3,
+  pages 1736--1745. IEEE, 2002.
+
+\bibitem{apostolopoulos2001reliable}
+J.G. Apostolopoulos.
+\newblock Reliable video communication over lossy packet networks using
+  multiple state encoding and path diversity.
+\newblock In {\em Visual Communications and Image Processing}, volume~1.
+  Citeseer, 2001.
+
+\bibitem{bhattacharyya1998efficient}
+S.~Bhattacharyya, J.F. Kurose, D.~Towlsey, and R.~Nagarajan.
+\newblock Efficient rate-controlled bulk data transfer using multiple multicast
+  groups.
+\newblock In {\em INFOCOM'98. Seventeenth Annual Joint Conference of the IEEE
+  Computer and Communications Societies. Proceedings. IEEE}, volume~3, pages
+  1172--1179. IEEE, 1998.
+
+\bibitem{byers2001fine}
+J.~Byers, M.~Luby, and M.~Mitzenmacher.
+\newblock Fine-grained layered multicast.
+\newblock In {\em INFOCOM 2001. Twentieth Annual Joint Conference of the IEEE
+  Computer and Communications Societies. Proceedings. IEEE}, volume~2, pages
+  1143--1151. IEEE, 2001.
+
+\bibitem{cui2003layered}
+Y.~Cui and K.~Nahrstedt.
+\newblock Layered peer-to-peer streaming.
+\newblock In {\em Proceedings of the 13th international workshop on Network and
+  operating systems support for digital audio and video}, pages 162--171. ACM,
+  2003.
+
+\bibitem{dai2007maximizing}
+L.~Dai, Y.~Cui, and Y.~Xue.
+\newblock Maximizing throughput in layered peer-to-peer streaming.
+\newblock In {\em Communications, 2007. ICC'07. IEEE International Conference
+  on}, pages 1734--1739. IEEE, 2007.
+
+\bibitem{eberhard2010knapsack}
+M.~Eberhard, T.~Szkaliczki, H.~Hellwagner, L.~Szobonya, and C.~Timmerer.
+\newblock Knapsack problem-based piece-picking algorithms for layered content
+  in peer-to-peer networks.
+\newblock In {\em Proceedings of the 2010 ACM workshop on Advanced video
+  streaming techniques for peer-to-peer networks and social networking}, pages
+  71--76. ACM, 2010.
+
+\bibitem{kasera2000scalable}
+S.K. Kasera, G.~Hjalmtusson, D.F. Towsley, and J.F. Kurose.
+\newblock Scalable reliable multicast using multiple multicast channels.
+\newblock {\em Networking, IEEE/ACM Transactions on}, 8(3):294--310, 2000.
+
+\bibitem{khan2002solving}
+S.~Khan, K.F. Li, E.G. Manning, and M.D.M. Akbar.
+\newblock Solving the knapsack problem for adaptive multimedia systems.
+\newblock {\em Stud. Inform. Univ.}, 2(1):157--178, 2002.
+
+\bibitem{liu2003adaptive}
+J.~Liu, B.~Li, and Y.Q. Zhang.
+\newblock Adaptive video multicast over the internet.
+\newblock {\em Multimedia, IEEE}, 10(1):22--33, 2003.
+
+\bibitem{liu2007p2p-mdc}
+Z.~Liu, Y.~Shen, S.S. Panwar, K.W. Ross, and Y.~Wang.
+\newblock P2p video live streaming with mdc: Providing incentives for
+  redistribution.
+\newblock In {\em Multimedia and Expo, 2007 IEEE International Conference on},
+  pages 48--51. IEEE, 2007.
+
+\bibitem{liu2007incentive-mlayer}
+Z.~Liu, Y.~Shen, S.S. Panwar, K.W. Ross, and Y.~Wang.
+\newblock Using layered video to provide incentives in p2p live streaming.
+\newblock In {\em Proceedings of the 2007 workshop on Peer-to-peer streaming
+  and IP-TV}, pages 311--316. ACM, 2007.
+
+\bibitem{liu2009layerp2p}
+Z.~Liu, Y.~Shen, K.W. Ross, S.S. Panwar, and Y.~Wang.
+\newblock Layerp2p: using layered video chunks in p2p live streaming.
+\newblock {\em Multimedia, IEEE Transactions on}, 11(7):1340--1352, 2009.
+
+\bibitem{magharei2006adaptive}
+N.~Magharei and R.~Rejaie.
+\newblock Adaptive receiver-driven streaming from multiple senders.
+\newblock {\em Multimedia Systems}, 11(6):550--567, 2006.
+
+\bibitem{mccanne1996receiver}
+S.~McCanne, V.~Jacobson, and M.~Vetterli.
+\newblock Receiver-driven layered multicast.
+\newblock In {\em Conference proceedings on Applications, technologies,
+  architectures, and protocols for computer communications}, pages 117--130.
+  ACM, 1996.
+
+\bibitem{padmanabhan2002distributing}
+V.N. Padmanabhan, H.J. Wang, P.A. Chou, and K.~Sripanidkulchai.
+\newblock Distributing streaming media content using cooperative networking.
+\newblock In {\em Proceedings of the 12th international workshop on Network and
+  operating systems support for digital audio and video}, pages 177--186. ACM,
+  2002.
+
+\bibitem{pai2005chainsaw}
+V.~Pai, K.~Kumar, K.~Tamilmani, V.~Sambamurthy, and A.~Mohr.
+\newblock Chainsaw: Eliminating trees from overlay multicast.
+\newblock {\em Peer-to-peer systems IV}, v:127--140, 2005.
+
+\bibitem{qin2007improving}
+M.~Qin and R.~Zimmermann.
+\newblock Improving mobile ad-hoc streaming performance through adaptive layer
+  selection with scalable video coding.
+\newblock In {\em Proceedings of the 15th international conference on
+  Multimedia}, pages 717--726. ACM, 2007.
+
+\bibitem{rejaie1999quality}
+R.~Rejaie, M.~Handley, and D.~Estrin.
+\newblock Quality adaptation for congestion controlled video playback over the
+  internet.
+\newblock In {\em ACM SIGCOMM Computer Communication Review}, volume~29, pages
+  189--200. ACM, 1999.
+
+\bibitem{rejaie2003pals}
+R.~Rejaie and A.~Ortega.
+\newblock Pals: peer-to-peer adaptive layered streaming.
+\newblock In {\em Proceedings of the 13th international workshop on Network and
+  operating systems support for digital audio and video}, pages 153--161. ACM,
+  2003.
+
+\bibitem{szkaliczki2010piece}
+T.~Szkaliczki, M.~Eberhard, H.~Hellwagner, and L.~Szobonya.
+\newblock Piece selection algorithm for layered video streaming in p2p
+  networks.
+\newblock {\em Electronic Notes in Discrete Mathematics}, 36:1265--1272, 2010.
+
+\bibitem{xiao2008optimal3layered-3stage}
+X.~Xiao, Y.~Shi, and Y.~Gao.
+\newblock On optimal scheduling for layered video streaming in heterogeneous
+  peer-to-peer networks.
+\newblock In {\em Proceeding of the 16th ACM international conference on
+  Multimedia}, pages 785--788. ACM, 2008.
+
+\bibitem{xiao2009layerp2p}
+X.~Xiao, Y.~Shi, Y.~Gao, and Q.~Zhang.
+\newblock Layerp2p: A new data scheduling approach for layered streaming in
+  heterogeneous networks.
+\newblock In {\em INFOCOM 2009, IEEE}, pages 603--611. IEEE, 2009.
+
+\bibitem{xiao2008ocals}
+X.~Xiao, Y.~Shi, B.~Zhang, and Y.~Gao.
+\newblock Ocals: A novel overlay construction approach for layered streaming.
+\newblock In {\em Communications, 2008. ICC'08. IEEE International Conference
+  on}, pages 1807--1812. IEEE, 2008.
+
+\bibitem{zhao2006improving}
+J.~Zhao, F.~Yang, Q.~Zhang, and Z.~Zhang.
+\newblock On improving the throughput of media delivery applications in
+  heterogenous overlay network.
+\newblock In {\em Proc. IEEE Globecom}. Citeseer, 2006.
+
+\end{thebibliography}
