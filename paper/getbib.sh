@@ -33,6 +33,10 @@ latex gen_bib
 bibtex gen_bib
 cd -
 
-cp -f tmp/gen_bib.bbl .
-
+#cp -f tmp/gen_bib.bbl .
+rm -f gen_bib.bbl
+#sed 's/\\end\{thebibliography\}//g' tmp/gen_bib.bbl > gen_bib.bbl
+sed 's/\\end{thebibliography}//g' tmp/gen_bib.bbl > gen_bib.bbl
+cat manual_bib.tex >> gen_bib.bbl
+echo '\end{thebibliography}' >> gen_bib.bbl
 
