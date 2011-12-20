@@ -6,7 +6,6 @@ TMP_LIST= \
 		  *.log \
 		  *~ \
 		  *.toc \
-		  *.bbl \
 		  *.blg \
 		  *.out \
 		  *.snm \
