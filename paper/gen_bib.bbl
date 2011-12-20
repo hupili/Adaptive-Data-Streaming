@@ -42,6 +42,13 @@ L.~Dai, Y.~Cui, and Y.~Xue.
 \newblock In {\em Communications, 2007. ICC'07. IEEE International Conference
   on}, pages 1734--1739. IEEE, 2007.
 
+\bibitem{dobrian2011understanding}
+F.~Dobrian, A.~Awan, D.~Joseph, A.~Ganjam, J.~Zhan, V.~Sekar, I.~Stoica, and
+  H.~Zhang.
+\newblock Understanding the impact of video quality on user engagement.
+\newblock In {\em Proceedings of the ACM SIGCOMM 2011 conference on SIGCOMM},
+  pages 362--373. ACM, 2011.
+
 \bibitem{eberhard2010knapsack}
 M.~Eberhard, T.~Szkaliczki, H.~Hellwagner, L.~Szobonya, and C.~Timmerer.
 \newblock Knapsack problem-based piece-picking algorithms for layered content
@@ -49,6 +56,29 @@ M.~Eberhard, T.~Szkaliczki, H.~Hellwagner, L.~Szobonya, and C.~Timmerer.
 \newblock In {\em Proceedings of the 2010 ACM workshop on Advanced video
   streaming techniques for peer-to-peer networks and social networking}, pages
   71--76. ACM, 2010.
+
+\bibitem{fu2010designing}
+T.Z.J. Fu, D.M. Chiu, and Z.~Lei.
+\newblock Designing qoe experiments to evaluate peer-to-peer streaming
+  applications.
+\newblock In {\em Visual Communications and Image Processing}, 2010.
+
+\bibitem{fu2010perceptual}
+T.Z.J. Fu, W.~Leung, P.~Lam, D.M. Chiu, and Z.~Lei.
+\newblock Perceptual quality assessment of p2p assisted streaming video for
+  chunk-level playback controller design.
+\newblock In {\em Packet Video Workshop (PV), 2010 18th International}, pages
+  102--109. IEEE, 2010.
+
+\bibitem{gamal1982achievable}
+A.E.L. Gamal and T.~Cover.
+\newblock Achievable rates for multiple descriptions.
+\newblock {\em Information Theory, IEEE Transactions on}, 28(6):851--857, 1982.
+
+\bibitem{goyal2001multiple}
+V.K. Goyal.
+\newblock Multiple description coding: Compression meets the network.
+\newblock {\em Signal Processing Magazine, IEEE}, 18(5):74--93, 2001.
 
 \bibitem{kasera2000scalable}
 S.K. Kasera, G.~Hjalmtusson, D.F. Towsley, and J.F. Kurose.
@@ -128,11 +158,41 @@ R.~Rejaie and A.~Ortega.
   operating systems support for digital audio and video}, pages 153--161. ACM,
   2003.
 
+\bibitem{schwarz2007overview-svc}
+H.~Schwarz, D.~Marpe, and T.~Wiegand.
+\newblock Overview of the scalable video coding extension of the h. 264/avc
+  standard.
+\newblock {\em Circuits and Systems for Video Technology, IEEE Transactions
+  on}, 17(9):1103--1120, 2007.
+
 \bibitem{szkaliczki2010piece}
 T.~Szkaliczki, M.~Eberhard, H.~Hellwagner, and L.~Szobonya.
 \newblock Piece selection algorithm for layered video streaming in p2p
   networks.
 \newblock {\em Electronic Notes in Discrete Mathematics}, 36:1265--1272, 2010.
+
+\bibitem{wang2011-perceptual}
+Jingjing Wang, Z.~J.~Tom Fu, Dah~Ming Chiu, and Zhibin Lei.
+\newblock Perceptual quality assessment on b-d tradeoff of p2p assisted layered
+  video streaming.
+\newblock In {\em VCIP}, 2011.
+
+\bibitem{wang2005mdc}
+Y.~Wang, A.R. Reibman, and S.~Lin.
+\newblock Multiple description coding for video delivery.
+\newblock {\em Proceedings of the IEEE}, 93(1):57--70, 2005.
+
+\bibitem{wiegand2003overview-avc}
+T.~Wiegand, G.J. Sullivan, G.~Bjontegaard, and A.~Luthra.
+\newblock Overview of the h. 264/avc video coding standard.
+\newblock {\em Circuits and Systems for Video Technology, IEEE Transactions
+  on}, 13(7):560--576, 2003.
+
+\bibitem{wien2007performance-svc}
+M.~Wien, H.~Schwarz, and T.~Oelbaum.
+\newblock Performance analysis of svc.
+\newblock {\em Circuits and Systems for Video Technology, IEEE Transactions
+  on}, 17(9):1194--1203, 2007.
 
 \bibitem{xiao2008optimal3layered-3stage}
 X.~Xiao, Y.~Shi, and Y.~Gao.
@@ -162,4 +222,5 @@ J.~Zhao, F.~Yang, Q.~Zhang, and Z.~Zhang.
 
 \bibitem{youtube} Youtube, Demo of User Controlled Adaptation, 
 	\url{http://www.youtube.com/}
-\end{thebibliography}
+\bibitem{hu2011-ldt} Pili Hu, 2011, Lightweight Distributing Toolset, 
+	\url{https://github.com/hupili/Lightweight-Distributing-Toolset}\end{thebibliography}
