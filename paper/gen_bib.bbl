@@ -80,6 +80,12 @@ V.K. Goyal.
 \newblock Multiple description coding: Compression meets the network.
 \newblock {\em Signal Processing Magazine, IEEE}, 18(5):74--93, 2001.
 
+\bibitem{huang2010simulation}
+J.~Huang, G.~Cheng, J.~Liu, D.M. Chiu, K.~Wu, and Z.~Lei.
+\newblock A simulation tool for the design and provisioning of p2p assisted
+  content distribution platforms.
+\newblock under review?, 2010.
+
 \bibitem{kasera2000scalable}
 S.K. Kasera, G.~Hjalmtusson, D.F. Towsley, and J.F. Kurose.
 \newblock Scalable reliable multicast using multiple multicast channels.
@@ -171,6 +177,12 @@ T.~Szkaliczki, M.~Eberhard, H.~Hellwagner, and L.~Szobonya.
   networks.
 \newblock {\em Electronic Notes in Discrete Mathematics}, 36:1265--1272, 2010.
 
+\bibitem{vitter1985-random-reservoir}
+J.S. Vitter.
+\newblock Random sampling with a reservoir.
+\newblock {\em ACM Transactions on Mathematical Software (TOMS)}, 11(1):37--57,
+  1985.
+
 \bibitem{wang2011-perceptual}
 Jingjing Wang, Z.~J.~Tom Fu, Dah~Ming Chiu, and Zhibin Lei.
 \newblock Perceptual quality assessment on b-d tradeoff of p2p assisted layered
@@ -223,4 +235,14 @@ J.~Zhao, F.~Yang, Q.~Zhang, and Z.~Zhang.
 \bibitem{youtube} Youtube, Demo of User Controlled Adaptation, 
 	\url{http://www.youtube.com/}
 \bibitem{hu2011-ldt} Pili Hu, 2011, Lightweight Distributing Toolset, 
-	\url{https://github.com/hupili/Lightweight-Distributing-Toolset}\end{thebibliography}
+	\url{https://github.com/hupili/Lightweight-Distributing-Toolset}
+\bibitem{astri} ASTRI, 
+	\url{http://www.astri.org/}
+\bibitem{ierg5270} IERG5270, 2011, Books, Course Slides, Tutorial Slides, 
+	Classmates' Presentations, etc. Not publicly available. Please 
+	contact course instructor or TA for those materials.  
+	\url{http://course.ie.cuhk.edu.hk/~ierg5270/}
+\bibitem{ns} Network Simulator 2, 
+	\url{http://isi.edu/nsnam/ns/}
+\bibitem{pdns} Parallel Distributed NS, 
+	\url{http://www.cc.gatech.edu/computing/compass/pdns/index.html}\end{thebibliography}

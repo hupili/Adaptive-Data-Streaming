@@ -7,7 +7,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{subfigure}
-
+\usepackage{fancyvrb}
 
 \author{HU, Pili \\
 MobiTeC, IE Department, CUHK \\
@@ -80,6 +80,10 @@ MobiTeC, IE Department, CUHK \\
 
 \subsection{Overlay Construction}
 
+
+\subsubsection{Construction with Prior Knowledge}
+
+
 \subsection{Peer Selection}
 
 
@@ -103,41 +107,122 @@ MCMF, Network Flow
 
 \section{A Case Study and Simulation }
 
-\subsection{Baseline Description}
+Our simulation platform roots from a commercial deployment
+of P2P system\cite{astri}, which has upgraded from P2P file downloading 
+system, to P2P live streaming sytem, and then to the current 
+version of multilayer P2P VoD system. Interested
+readers are recommended to \cite{huang2010simulation} for 
+further information. This platform has been validated against 
+real trace data collected from 2008 Olympic period. It is 
+widely used in P2P related research and pre-deployment testing. 
+Course IERG5270\cite{ierg5270} has adopted this platform 
+as a simulation foundation for several years. 
+
+\subsection{System Description}
+
+To get a concrete view of the situation, we draw the 
+version tree in fig(\ref{fig:simu_version_tree}). 
+Blue blocks represent the real deployment of ASTRI. 
+White blocks represent corresponding simulation platform.
+Red dash stands for strong equivalency. 
+Green block shows the position of this project. 
+The trial version of multilayer P2P VoD is forked from the 
+original downloader platform and is developed by 
+Zheng Wen in 2010. 
 
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=0.6\textwidth]{../fig/version_tree.png}
 	\caption{Version Tree of Real and Simulation}
+	\label{fig:simu_version_tree}
 \end{figure}
 
-\begin{itemize}
-	\item Blue: Real deployment
-	\item While: Simulation platform 
-	\item Green: This work  
-	\item Red dash: Equivalency
-\end{itemize}
+\textbf{Precaution}: the results obtained in this project may not 
+reflect real system in every aspect(there is no red dash showing 
+this kind of relationship). Nevertheless, methodology wise speaking, 
+those results do provide some insights in Multilayer P2P system design.  
 
-\begin{figure}
-	\includegraphics[width=0.8\textwidth]{../fig/runtime_vs_core.jpg}
+
+%\begin{itemize}
+%	\item Blue: Real deployment
+%	\item While: Simulation platform 
+%	\item Green: This work  
+%	\item Red dash: Equivalency
+%\end{itemize}
+
+
+\subsection{System Benchmark Test}
+
+Before we start, system benchmark test of simulator performance
+is conducted. 
+
+%\subsubsection{Core Numbers}
+
+Fig(\ref{fig:simu_bm_rt_core}) shows how simulator running time 
+varies with different number of cores. Note that PDNS \cite{pdns}
+is the distributed version of NS\cite{ns}. In this paper, we 
+just run the simulation on one machine with 16 cores. The original 
+configuration of the platform involves 8 cores per simulation instance. 
+Leaving some system recourses for other purpose, we can only 
+run one simulation at a time, which significantly lowers our 
+experiment efficiency. 
+
+\begin{figure}[htb]
+\centering
+	\includegraphics[width=0.7\textwidth]{../fig/runtime_vs_core.jpg}
+	\caption{Running Time v.s. Number of Cores}
+	\label{fig:simu_bm_rt_core}
 \end{figure}
 
-\begin{figure}
-	\includegraphics[width=0.8\textwidth]{../fig/runtime_vs_nodenum.jpg}
+We find that, when simulation time(measured in NS seconds) is small, 
+4 cores appear to be more efficient than 8 cores. Thus the following 
+experiments are all issued to 4 cores to enhance our distributing level. 
+
+%\subsubsection{Number of Nodes}
+
+\begin{figure}[htb]
+\centering
+	\includegraphics[width=0.7\textwidth]{../fig/runtime_vs_nodenum.jpg}
+	\caption{Running Time v.s. Number of Nodes}
+	\label{fig:simu_bm_rt_node}
 \end{figure}
 
-\begin{figure}
-	\includegraphics[width=0.8\textwidth]{../fig/runtime_vs_simutime.jpg}
+Fig(\ref{fig:simu_bm_rt_node}) shows how simulator running time 
+varies with the number of nodes simulated. 
+It appears to be linear. The fit parameters are given in 
+the title of the plot. 
+
+%\subsubsection{Simulation Time}
+
+\begin{figure}[htb]
+\centering
+	\includegraphics[width=0.7\textwidth]{../fig/runtime_vs_simutime.jpg}
+	\caption{Running Time v.s. Simulation Time(NS)}
+	\label{fig:simu_bm_rt_st}
 \end{figure}
 
+Fig(\ref{fig:simu_bm_rt_st}) shows how simulator running time
+varies with the simulation time(in NS seconds). 
+
+With those system test, the final parameters we choose are:
 \begin{itemize}
 	\item Number of Nodes: 160
 	\item Simulation Time: 300 (NS seconds)
 \end{itemize}
 
-Wen Zheng's configuration:
+It's obviours that the number of nodes and simulation time 
+is much smaller than those in a real VoD system. With those 
+two configurations, the simulator can finish in about 2 hours
+using 4 cores. We sacrifice some equivalency to the real system 
+to make the simulation tractable. 
+
+\subsection{Experiment Configuration}
+
+In this study, we follow the same configuration given by 
+Zheng Wen. The topology is summarized as follows:
 \begin{itemize}
-	\item Star like, 4 subnet. 
+	\item Star like. Peers are equally divided into 4 subnets.
+	Every node connects to a single central router.  
 	\item Subnet parameters:
 		\begin{itemize}
 			\item Subnet1: down:10Mb; up:10Mb. 
@@ -147,8 +232,9 @@ Wen Zheng's configuration:
 		\end{itemize}
 \end{itemize}
 
+The layer configuration is summarized as follows:
 \begin{itemize}
-	\item 3 Layers. Conform to [wang,2011] QoE study.  
+	\item 3 Layers. 
 	\item Layer parameters:
 		\begin{itemize}
 			\item Layer1: 256Kbit. (per piece) 
@@ -156,87 +242,242 @@ Wen Zheng's configuration:
 			\item Layer3: 512Kbit. (per piece) 
 		\end{itemize}
 \end{itemize}
+Note that the cumulative data amount is 256Kbit, 512Kbit, and 1024Kbit. 
+This is consistent with Wang's QoE study\cite{wang2011-perceptual}. Thus
+we can rely on their QoE model to measure our system. 
 
 \subsection{QoE Model Implementation}
+\label{sec:simu_qoe}
 
-[wang, 2011], B-D tradeoff, continuous version. 
+In Wang's paper\cite{wang2011-perceptual}, they seek for the tradeoff
+between bitrate(influenced by current layers subscribed) and discontinuity. 
+They first do large amount subjective tests, and then fit the data into 
+a continuous version formula, as is given in eqn(\ref{eq:mos_wang}). 
 \begin{equation}
 	MOS = c_1 \times d + \alpha \times (1 - e^{-b \times \lambda}) + c_2
+	\label{eq:mos_wang}
 \end{equation}
-\begin{figure}
+The parameters are $c_1=-5$, $c_2=2$, $\alpha=4$, $\lambda=0.0015$. 
+
+In that paper, the maximum discontinuity considered is 50\%, so we 
+plot the MOS curve again to give the readers a better impression of how
+it looks like. See fig(\ref{fig:mos_wang}). 
+
+\begin{figure}[htb]
+\centering
 	\subfigure[3D]{
+	\label{fig:mos_wang_3d}
 	\includegraphics[width=0.45\textwidth]{../fig/bd_3d.jpg}
 	}
 	\subfigure[contour]{
+	\label{fig:mos_wang_contour}
 	\includegraphics[width=0.45\textwidth]{../fig/bd_contour.jpg}
 	}
 	\caption{Conclusion, QoE and Performance}
+	\label{fig:mos_wang}
 \end{figure}
 
+Fig(\ref{fig:mos_wang_3d}) is the 3D version and Fig(\ref{fig:mos_wang_contour})
+is the contour version. We want to point out that by definition, MOS 
+should be a score between 0 and 5. However, using this formula, we'll get
+negative scores sometime. Especially when the discontinuity is 100\% and
+bitrate is 0, the MOS can be as low as -3. We don't regard this case as 
+a bug. On the contrary, it is reasonable to assign negative opinions. 
+In our implementation of this QoE model, peers report their statistics every 
+20 seconds. If the -3 score happens, that means the user is purely waiting 
+in the whole 20 seconds, which causes a negative opinion naturally. 
+Our system should work towards reducing this kind of disturbance. 
 
 \subsection{Baseline Test}
+\label{sec:simu_base}
 
-\begin{figure}
-	\includegraphics[width=0.8\textwidth]{../fig/simutime_qoe.jpg}
+In this section, we evaluate the baseline using the QoE records 
+reported by peers. We compute MOS using eqn(\ref{eq:mos_wang}),
+and take the average. 
+
+Fig(\ref{fig:simu_base_qoe_st}) shows the result when total simulation 
+time varies from 30 NS seconds to 960 NS seconds. It's interesting that
+with the increase of simulation time, the QoE gets improved, and the 
+boxplot shows the statistics of 5 simulations with the same 
+configuration. This means the improvement is statistically significant. 
+
+\begin{figure}[htb]
+\centering
+	\includegraphics[width=0.7\textwidth]{../fig/simutime_qoe.jpg}
+	\caption{QoE v.s. Simulation Time}
+	\label{fig:simu_base_qoe_st}
 \end{figure}
 
-\begin{figure}
-	\includegraphics[width=0.8\textwidth]{../fig/simutime_qoe_nonneg.jpg}
+By examing the detailed trace file, we find that there are many 
+negative opinions at the beginning of those simulation. Later after
+about 100 NS seconds, the reported MOS gets better and better. It
+makes sense that the system needs some bootstraping time, when 
+all of the peers lack chunks. They can not help each other efficiently
+during this time. 
+
+We eliminate those negative records and make the boxplot again. See 
+Fig(\ref{fig:simu_base_qoenonneg_st}). This figure verifies our 
+conjecture. The last two boxes stand for 480s and 960s simulation time. 
+There is little difference in mean within this range. Longer simulation time
+just makes the variance smaller. To explain, after some bootstraping period, 
+the system approaches steady state and the average opinions become 
+nearly a constant. The first box seems an outlier. This is because peers are
+joining the system gradually at that time. The number of reported records
+are very small. Only those peers connected directly to the source can 
+get something to playback. Others all get negative opinions. By eliminating 
+the negative opinions, the resultant score is very high. 
+
+\begin{figure}[htb]
+\centering
+	\includegraphics[width=0.7\textwidth]{../fig/simutime_qoe_nonneg.jpg}
+	\caption{QoE(nonneg) v.s. Simulation Time}
+	\label{fig:simu_base_qoenonneg_st}
 \end{figure}
 
 
-\begin{itemize}
-      \item     $'count\_mr' => 3749$
-      \item     $'count\_mr\_nonneg' => 2601$
-      \item     $'avg\_qoe' => '0.871540677419684'$
-      \item     $'avg\_qoe\_nonneg' => '2.01996612593628'$
-      \item     $'node\_num' => '160'$
-      \item     $'simu\_time' => '480'$
-      \item     $'core\_num' => '4'$
-      \item     $'task\_duration' => 8399$
-      \item     $'pdns\_duration' => 8302$
-\end{itemize}
 
-\begin{figure}
-	\includegraphics[width=0.6\textwidth]{../fig/time_qoe.jpg}
+%
+%\begin{itemize}
+%      \item     $'count\_mr' => 3749$
+%      \item     $'count\_mr\_nonneg' => 2601$
+%      \item     $'avg\_qoe' => '0.871540677419684'$
+%      \item     $'avg\_qoe\_nonneg' => '2.01996612593628'$
+%      \item     $'node\_num' => '160'$
+%      \item     $'simu\_time' => '480'$
+%      \item     $'core\_num' => '4'$
+%      \item     $'task\_duration' => 8399$
+%      \item     $'pdns\_duration' => 8302$
+%\end{itemize}
+
+Next, we pick a sample run out of all these baseline simulations. 
+The global parameters and statistics are: 
+simulation time is 480s; number of nodes is 160;
+number of QoE reports is 3749; number of nonnegative QoE reports is 2601;
+average QoE socre is 0.87; the nonnegative version of average QoE score is 
+2.02. 
+
+\begin{figure}[htb]
+\centering
+	\includegraphics[width=0.7\textwidth]{../fig/time_qoe.jpg}
+	\caption{QoE Varies with Current System Time}
+	\label{fig:simu_base_qoe_vary}
 \end{figure}
-Observations:
-\begin{itemize}
-	\item System bootstraping stage. 
-	\item Steady after about 250 seconds. 
-\end{itemize}
 
-\begin{figure}
+
+Fig(\ref{fig:simu_base_qoe_vary}) shows how QoE varies with curret time section. 
+We can see the per section averaged QoE gets higher and higher in 
+the first 150 seconds. After that, the section averaged QoE becomes steady. 
+This again proves our bootstraping conjecture. 
+
+
+\begin{figure}[htb]
+\centering
 	\includegraphics[width=0.7\textwidth]{../fig/qoe_hist.jpg}
+	\caption{Histogram of QoE Distribution}
+	\label{fig:simu_base_qoe_distri}
 \end{figure}
+
+Fig(\ref{fig:simu_base_qoe_distri}) shows the historgram of QoE reports
+from this sample run. We can conclude that, some powerful peers can get 
+full 5 score experiene, whereas large amount of peers report negative scores.
+Our future improvements should mitigate this part(purely buffer for 
+20 seconds and play nothing). 
 
 \subsection{Chunk Selection Architecture Reconstruction}
+\label{sec:arch}
 
-\begin{figure}
+In this section, we modify the original architecture to make
+it more clear and unified. This helps us develop strategies 
+on this architecture later. 
+
+Original design separates chunk selection and peer selection. 
+It is shown in Fig(\ref{fig:simu_arch_orig}). 
+
+\begin{figure}[htb]
+\centering
 	\includegraphics[width=0.7\textwidth]{../fig/arch_orig.png}
 	\caption{Original Architecture}
+	\label{fig:simu_arch_orig}
 \end{figure}
 
-\begin{figure}
+In this design, every peer is considered in a round robin fashion. 
+After one neighbour is chosen, this peer selects chunks according to 
+a three section based strategy. After one section is filled up to a 
+certain ratio, the peer
+will consider the next section. Chunks in the same section are selected 
+randomly. In our multilayer situation, layers are considered from lower ones
+to higher ones. That is, after the peer get 50\% of the 3rd section, 
+it will start to to fill the next higher layer. 
+In order to reduce the network burden, peers are constrained to fetch chunks
+from no more than 20 neighbours simultaneously. 
+
+\begin{figure}[htb]
+\centering
 	\includegraphics[width=0.7\textwidth]{../fig/arch_improved.png}
 	\caption{Improved Architecture}
+	\label{fig:simu_arch_improv}
 \end{figure}
 
+The improved architecture is illustrated in Fig(\ref{fig:simu_arch_improv}). 
+To make our decision more rationale and make the architecture clear,
+we collect all information first, and do peer selection and chunk selection 
+together. 
 
-\begin{figure}
+In this version, we adopt a very simple strategy, as is used in PALS
+\cite{rejaie2003pals}. This strategy makes decision on a chunk basis. 
+It first consider base layer chunks and then moves to enhancement layers. 
+In one layer, the chunks closer to playback points are considered first. 
+The overall picture is like a snake-shaped move on the 2 dimension buffer
+map. Fig(\ref{fig:simu_stg_pals}) illustrates this strategy. 
+If there are more than one peers available for one chunk, we just randomly 
+choose one peer. 
+
+\begin{figure}[htb]
+\centering
 	\includegraphics[width=0.7\textwidth]{../fig/pals_like.png}
-	\caption{Improved Architecture}
+	\caption{PALS Style Chunk Selection}
+	\label{fig:simu_stg_pals}
 \end{figure}
-Effect:
+
+After each modification, we evaluate the result from two aspects:
+\begin{itemize}
+	\item QoE. The formula is given in eqn(\ref{eq:mos_wang}). 
+	In our study, we didn't make any aggressive strategies like
+	scheduling all requests to the server. So we don't subtract server's
+	contribution from this metric intentionally. Another reason is, 
+	in the underlying overlay construction(which is not modified in 
+	this study), the server is treated as a normal peer. Not all peers
+	can turn to server for help when the lack chunks. 
+	\item Performance. Another important thing we care is the performance
+	of simulator. This kind of packet level simulation is very time consuming. 
+	One iteration of strategies calls for several hours of running typically. 
+	In order to fulfil a short-term project, we can not make strategies of 
+	high time complexity. What's more, the running time of simulator 
+	reflects the computation resource consumption in real deployments. 
+	User experience will degrade if their player consumes extra large
+	amount of resources, to limit other process. 
+\end{itemize}
+
+The result of modification in this section is:
 \begin{itemize}
 	\item QoE: 0.7 $\rightarrow$ 3.3
+	\item Performance: nearly doubled. 
 \end{itemize}
 
 
 \subsection{Priority Based Upgrade}
+\label{sec:priority}
 
-\begin{table}
+In this section, we do more engineering upgrades. 
+We abstract the chunk selection strategy using a priority table. 
+One sample table with window size equal to 5 is given in 
+Table(\ref{tbl:sample_priority}). This table is equivalent to 
+PALS. 
+
+\begin{table}[htb]
+\centering
 \caption{A Sample Priority Table with Window Size = 5}
+\label{tbl:sample_priority}
 	\begin{tabular}{|c|ccccc|}
 	\hline
 	 & t1 & t2 & t3 & t4 & t5 \\
@@ -248,25 +489,32 @@ Effect:
 	\end{tabular}
 \end{table}
 
-Result:
+Further investigation on optimal priority table can be done 
+easily in this framework. Result of this modification is:
 \begin{itemize}
 	\item QoE: nearly the same. 
 	\item Performance: decrease slightly. 
 \end{itemize}
 
 
-
 \subsection{Scalable Window Size}
 
-Reason:
-\begin{itemize}
-	\item From trace, many powerful peeers can get full 3 layers
-	in the whole window. 
-	\item Give them a chance to download more, and their data
-	far from playback pointer can server others. 
-\end{itemize}
-\begin{table}
+After previous upgrades, we examine the trace files from 
+several simulations. From the trace, we find many powerful peeers can get full 
+3 layers in the whole window(60 seconds, 3 layers). 
+The restriction on window size is a special desgin of video streaming, 
+no matter live or VoD. This is because chunks very far from 
+playback point is not of high interest to the peer. Every peer 
+only needs to store enough chunks in the buffer to guarantee 
+smooth playback. However, there is a side effect. Capable peers
+who are playing the early part can not help others who are 
+playing the later part. Thus we want to give those peers a chance to 
+help others. This is the rationale behind scalable window size. 
+
+\begin{table}[htb]
+\centering
 \caption{A Sample Priority Table with Window Size = 5+5}
+\label{tbl:priority_scalable}
 	\begin{tabular}{|c|ccccc|c|}
 	\hline
 	 & t1 & t2 & t3 & t4 & t5 & t6-t10 \\
@@ -278,22 +526,38 @@ Reason:
 	\end{tabular}
 \end{table}
 
-\begin{table}
-\caption{A Sample Priority Table with Window Size = 5+5}
-	\begin{tabular}{|c|ccccc|c|}
-	\hline
-	 & t1 & t2 & t3 & t4 & t5 & t6-t10 \\
-	 \hline
-	layer3 & 11 & 12 & 13 & 14 & 15 & ...\\
-	layer2 & 6 & 7 & 8 & 9 & 10 & ... \\
-	layer1 & 1 & 2 & 3 & 4 & 5  & ...\\
-	\hline
-	\end{tabular}
-\end{table}
+Table(\ref{tbl:priority_scalable}) illustrates a scaled 
+window with the size doubled. Using this table, less capable 
+peers will act as they are using table(\ref{tbl:sample_priority}). 
+For those powerful peers, after they finish the first section, as 
+is in table(\ref{tbl:priority_scalable}), they can move to the second
+section. This is the simplest illustration of the idea of scalable 
+window size. Ideally, the window size should be computed 
+on recipient of heartbeat message. When a peer updates the 
+network connection measurements, it can compute a proper window 
+size based on those data. Last but not least, the priority table 
+should be recomputed if the window size changes. 
+
+In this version, we fill the second section of the window using 
+the same strategy as used for the first section. The result is:
+\begin{itemize}
+	\item QoE is improved a little. 
+	\item Performance degrades sharply. 
+\end{itemize}
+
 
 \subsection{Performance Optimization}
+\label{sec:perf}
 
-\begin{figure}
+After last experiment, one simulation needs about 4.5 hours to complete. 
+This is really time consuming. In order to do more iterations, we 
+try to optimize the simulator performance right away. 
+At first, optimization described in this section only aims at 
+the performance of simulator. However, it turns out the QoE is 
+also improved. We'll talk about this phenomenon in conclusion section. 
+
+\begin{figure}[htb]
+\centering
 	\subfigure{
 	\includegraphics[width=0.6\textwidth]{../fig/gprof1.png}
 	} \\
@@ -301,25 +565,77 @@ Reason:
 	\includegraphics[width=0.6\textwidth]{../fig/gprof2.png}
 	}
 	\caption{GNU Profile, Output}
+	\label{fig:simu_perf_gprof}
 \end{figure}
 
-Result:
+Fig(\ref{fig:simu_perf_gprof}) shows two screenshots of the 
+output of 'gprof'. We first locate the most time consuming part
+that we can control. It turns out to be the 'requestData3()' function, 
+which implements the strategy mentioned in last section. 
+We then separate some sub functions from this one and find that
+the information collection is most time consuming. Note that 
+we do not send probes to collect information. Instead, peer information
+is updated on recipient of periodical notification message. 
+The information collection sub function only iterates over some 
+map structures and fill the availability information into 
+one unified 2D buffer map. 
+
+According to the analysis of the profile, we optimized those iteration 
+process. For more details, please refer to the code repository 
+of this project. Difference can be found between the following 
+two commitments:
+\begin{Verbatim}
+b45038404d8970c8ee1654d9bdbb10703432b8cd
+5d3aabdb1546d88da6e7a026d2d1fe67b04ad2f1
+\end{Verbatim}
+
+Result of the optimization is:
 \begin{itemize}
-	\item QoE: nearly the same. 
+	\item QoE: improved a little. 
 	\item Performance: 4.5h $\rightarrow$ 3.5h. 
 \end{itemize}
 
+Note that this is not the end of the performance optimization. 
+One of the possible directions is to optimize the sampling 
+method using a reservoir\cite{vitter1985-random-reservoir}. 
+However, this optimization is conducted with the knowledge 
+that we'll only random select one peer if there are multiple peers
+available for one chunk. This kind of optimization is too aggressive
+and will limit the design space of strategies, so we don't do 
+them in this research version. Designers can make notes 
+and do this kind of optimization when all strategies are fixed 
+in a real release version. 
+
 \subsection{Introduce Randomness in Second Window Section}
 
-Result:
+Due to time issue, our last trial based on the already established 
+mechanism is to introduce randomness in second window section. 
+As is known, randomness is a good property in the sense 
+that it helps the system to spread chunks uniformly. The first window
+section is scheduled using a snake-shaped priority, this design considers
+user-perceived experience. However, the second window section is for
+those powerful peers. Those chunks are not hurry for playback. Thus 
+we make the second section of the priority table randomly initialized. 
+Every peer will have different priority table. 
+
+The result is:
 \begin{itemize}
-	\item QoE: worse. 
-	\item Performance: worse. 
+	\item QoE: get worse. 
+	\item Performance: get worse. 
 \end{itemize}
 
 \subsection{Conclusion of the Case Study}
 
-\begin{figure}
+In this section we put together the result of 6 big versions. 
+See Fig(\ref{fig:simu_con}). In terms of QoE, version 2 improves
+a lot from baseline. After that, there are not so much difference 
+in QoE. In terms of simulator performance, all modified versions 
+are slower. The slowest version is the scalable window one. From 
+the plot, we know our performance optimization really helps to 
+reduce running time. 
+
+\begin{figure}[htb]
+\centering
 	\subfigure[qoe]{
 	\includegraphics[width=0.45\textwidth]{../fig/con_qoe_version_all.jpg}
 	}
@@ -327,9 +643,20 @@ Result:
 	\includegraphics[width=0.45\textwidth]{../fig/con_time_version_all.jpg}
 	}
 	\caption{Conclusion, QoE and Performance}
+	\label{fig:simu_con}
 \end{figure}
 
-\begin{figure}
+Fig(\ref{fig:simu_con_detail}) gives a closer look at the 5 modified versions. 
+The most interesting observation is the difference before and after 
+performance optimization. Note that in section(\ref{sec:perf}), 
+we did nothing about strategy. It is simply equivalent code reconstruction.
+However, while we observe better performace of the simulator, we also 
+find the QoE is improved a little. From the box plot, this improvement 
+seems statistically significant(there are two ourliers). 
+
+
+\begin{figure}[htb]
+\centering
 	\subfigure[qoe]{
 	\includegraphics[width=0.45\textwidth]{../fig/con_qoe_version_part.jpg}
 	}
@@ -337,8 +664,17 @@ Result:
 	\includegraphics[width=0.45\textwidth]{../fig/con_time_version_part.jpg}
 	}
 	\caption{Conclusion, QoE and Performance}
+	\label{fig:simu_con_detail}
 \end{figure}
 
+Similar phenomena have been observed in our other VoD simulations using 
+the same series ASTRI platform\cite{huang2010simulation}. When the server 
+is idle, the results tends to be better. Just like in our experiment, after 
+performance optimization, the computation burden is lowered, thus we see 
+better results. One conjecture is that this phenomenon is due to underlying 
+timing facilities, either NS\cite{ns,pdns} layer or the p2p simulator 
+layer\cite{huang2010simulation}. The verification of this point is
+left as future work. 
 
 
 \section{Conclusion}
@@ -376,14 +712,36 @@ Result:
 
 \section{Future Works}
 
+Here we list some potential research topics in an adaptive video streaming 
+system:
+\begin{itemize}
+	\item 
+\end{itemize} 
 
+For multilayer P2P VoD system, we list some potential research topics:
+\begin{itemize}
+	\item Composition and decomposition degree. 
+	\item If we use the framework given in section(\ref{sec:priority}), 
+	what's the optimal priority table. In order to achieve QoE aware design, 
+	models like \cite{wang2011-perceptual} should be considered. Due to 
+	time limit, we haven't deducted the optimal table in this study. 
+	\item As for the simulator, how to explain the relationship between 
+	QoE and simulator performance. Theoretically speaking, QoE should only 
+	depend on strategies and irrelevant of simulator performance. 
+\end{itemize}
 
 
 
 \section*{Acknowledgements}
 \addcontentsline{toc}{section}{Acknowledgements}
 
-
+The author would like to thank course instructor of IERG5270, Professor
+DM Chiu, and course TA Tom Fu. The inspiring discussion with professor 
+Wing Lau is very helpful. That helps the author find related works 
+in the context of IP multicast. The support from ASTRI\cite{astri} is also important, 
+which helps us get a better understanding of the commercial deployment
+of a multilayer P2P VoD system. The baseline platform is developed 
+by Zheng Wen, HKU. Special thanks to those coding. 
 
 
 \pagebreak
