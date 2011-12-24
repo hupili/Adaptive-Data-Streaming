@@ -625,6 +625,7 @@ The result is:
 \end{itemize}
 
 \subsection{Conclusion of the Case Study}
+\label{sec:simu_con}
 
 In this section we put together the result of 6 big versions. 
 See Fig(\ref{fig:simu_con}). In terms of QoE, version 2 improves
@@ -679,35 +680,49 @@ left as future work.
 
 \section{Conclusion}
 
+Here we conclude two pieces of experience from this study:
 	\begin{itemize}
-		\item Engineering approach v.s. academic approach:\\
-		where is the biggest cake? 
-		\item Time distribution:
+		\item Engineering approach v.s. academic approach:
+		where is the biggest cake? From section(\ref{sec:simu_con}), 
+		we see the most significant improvement lies in the first 
+		engineering upgrade. Although the modification itself reads simple, 
+		it makes the strategy framework more clear. Upon this framework, 
+		one simplest PALS like strategy achieves very good result. 
+		By examining the simulator carefully, we believe more engineering 
+		optimization can be found. Without an ideal underlying 
+		platform, the verification of algorithms on it is questionable. 
+		At same time, the benefit we tried exhaustively to get 
+		using better strategies may come easier with some engineering 
+		upgrades. 
+		\item Time distribution of this project:
 			\begin{itemize}
 				\item 70\%, literature survey.(30+ papers) 
-				\item 15\%, bugfix of the platform, environment setup. 
+				\item 15\%, environment setup, bugfix of the platform. 
 				\item 5\%, first unified version(QoE:0.7$\rightarrow$3.3, 
 				biggest improvement in this study)
 				\item 10\%, scalable window, performance optimization, random 
 				2nd section. (little outcome)
 			\end{itemize}
+		Sometimes we try very hard, to get little outcome. Sometimes, 
+		ideas flash through our minds, and suddenly we get significant 
+		achievements. 
 	\end{itemize}
 
-\begin{itemize}
-	\item 6 big versions / 240 runs. 
-	\item Auxilary Scripts:
-	\begin{itemize}
-	\item .sh:298 lines
-	\item .pl:791  lines
-	\item .m:133 lines
-	\end{itemize}
-	\item Simulation Code Difference:	
-	\begin{itemize}
-		\item download\_agent.cc: 1940 lines
-		\item download\_agent.h: 301 lines
-		\item labtesting.tcl: 84 lines
-	\end{itemize}
-\end{itemize}
+%\begin{itemize}
+%	\item 6 big versions / 240 runs. 
+%	\item Auxilary Scripts:
+%	\begin{itemize}
+%	\item .sh:298 lines
+%	\item .pl:791  lines
+%	\item .m:133 lines
+%	\end{itemize}
+%	\item Simulation Code Difference:	
+%	\begin{itemize}
+%		\item download\_agent.cc: 1940 lines
+%		\item download\_agent.h: 301 lines
+%		\item labtesting.tcl: 84 lines
+%	\end{itemize}
+%\end{itemize}
 
 
 \section{Future Works}
@@ -720,7 +735,7 @@ system:
 
 For multilayer P2P VoD system, we list some potential research topics:
 \begin{itemize}
-	\item Composition and decomposition degree. 
+	\item Degree composition and decomposition. 
 	\item If we use the framework given in section(\ref{sec:priority}), 
 	what's the optimal priority table. In order to achieve QoE aware design, 
 	models like \cite{wang2011-perceptual} should be considered. Due to 
