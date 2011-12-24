@@ -9,9 +9,12 @@
 \usepackage{subfigure}
 \usepackage{fancyvrb}
 
+\newcommand{\question}{\textbf{\\----NEED REVIEW HERE----\\}}
+
+
 \author{HU, Pili \\
 MobiTeC, IE Department, CUHK \\
-\texttt{hupili@ie.cuhk.edu.hk} \\
+\texttt{hupili [at] ie [dot] cuhk [dot] edu [dot] hk} \\
 \url{http://personal.ie.cuhk.edu.hk/~hpl011/} 
 }
 
@@ -52,26 +55,108 @@ MobiTeC, IE Department, CUHK \\
 
 \section{Introduction}
 
+\subsection{Background}
 
+\question
 
-\begin{itemize}
-	\item User perceived experience. 
-	\item Vendor cost. 
-	\item User cost. 
-	\item System cost. 
-\end{itemize}
+\subsection{Paper Structure}
+In section(\ref{sec:gen_model}), we present a very general model 
+of system design as well as several variations. In section(\ref{sec:problem_scope}), 
+we propose three problem scopes involved in adaptive video streaming. 
+We address the full design from three aspects: codec, networking and playback. 
+In section(\ref{sec:p2p_vod}), we focus the networking on p2p technology, 
+which is considered a very powerful tool to provide a system with huge 
+aggregate bandwidth in a distributed fashion. A design consideration 
+list is given from bottom to top. In section(\ref{sec:case}), we do 
+a case study on a widely used P2P simulation platform\cite{huang2010simulation}. 
+There are not so many highlights from this case study. Nevertheless, 
+we conclude some experience in section(\ref{sec:conclusion}), and 
+propose some potential directions in section(\ref{sec:future}). 
 
 \section{General Model}
+\label{sec:gen_model}
+
+\subsection{Metrics}
+
+No matter what our target system is
+(live streaming/Vod; multicast/P2P; layered/or not), we propose 4 general 
+system metrics: 
+\begin{itemize}
+	\item [(QoS)] QoS is one of the traditional considerations. 
+	Typical metrics in video streaming is buffer ratio, startup delay, 
+	jitter, etc. In \cite{xiao2009layerp2p}, Xiao proposed four metrics 
+	in the context of multilayer P2P video streaming: throughput, 
+	layer delivery ratio, useless packet ratio, and jitter(subscribe/drop layer 
+	events). 
+	\item [(QoE)] Note that all systems should benefit their users
+	in the first place. However, QoS can not directly reflect user experience. 
+	User experience can be measured using Mean Opinion Score\cite{wang2011-perceptual}
+	or User Satisfaction Index. The former one is subjective, which involves
+	field test on a batch of users. The latter one is objective, which combines 
+	several QoS metrics and output one overall score. 
+	Current works in adaptive video streaming seldom consider QoE carefully. 
+	It's obvious that a QoE aware design is highly appreciated. 
+	\item [(Vendor cost)] Cost of system vendor is often considered as 
+	the main optimization objective. Some recent VoD works like 
+	\cite{wu2011vod-rep} and \cite{zhou2011statistical} fall into this 
+	category. In those works, server is modeled as a backup of any missing
+	chunks. Thus the QoE(only discontinuity here) is guranteed naturally. 
+	With this setting, people can try to lower the server load. 
+	\item [(User cost)] User resources, like CPU cycle, network bandwidth, etc, 
+	are all precious. If QoE can be guranteed using less resources, it's 
+	not a good idea to consume more. Computing resource is prominent if we 
+	want to upgrade to a complex strategy. Some strategies look good in model, 
+	but may not be applicable due to very high time complexity. For example, 
+	in \cite{zhang2006optimal}, Zhang proposed a Mincost Flow based technique, 
+	to solve the chunk selection problem. This technique is universal and can 
+	solve all similar problems with utility definition. However the time consumption 
+	in real deployment is not fully addressed. We believe it consumes 
+	more time than the Knapsack based technique proposed in \cite{eberhard2010knapsack}, 
+	although the problem definition in the latter work is narrower. In 
+	many real deployments, we sacrifice the quality of solution for tractable 
+	computation resource. As is given in \cite{eberhard2010knapsack}, an efficient 
+	heuristic based algorithm can perform as nearly equally good as the optimal 
+	algorithm. In this case, the heuristic basd algorithm may be more likely 
+	to be adopted by real system designers. 
+	\item [(System cost)] In a P2P system, besides the bandwith consumption at 
+	server and peer side, the flow in intermediate netowrk infrastructure 
+	should also be taken into consideration. In \cite{chu2001case}, Chu use
+	link stress as one of the metrics, which measures how much redundant flow
+	tranverse a single physical link. This work is believed to be one of the 
+	pioneering work in P2P, so the author considers system cost thoroughly. 
+	Later, P2P technology has been proven an efficient method in many real 
+	deployments. The following works focus more on client and server side, rather
+	than on the network system. 
+\end{itemize}
+
+As far as we know, none of the current works consider 
+all four metrics in design, although many works can achieve 
+good result in those metrics even if they are not considered 
+from the very beginning. 
+
+\subsection{Model 1}
+
+
+
+\subsection{Model 1(a)}
+
+
+
+\subsection{Model 1(b)}
+
 
 
 \section{Problem Scope}
+\label{sec:problem_scope}
 
 \subsection{Codec}
 
 \subsection{Networking}
 
-\section{Design of Adaptive P2P VoD System}
+\subsection{Playback}
 
+\section{Design of Adaptive P2P VoD System}
+\label{sec:p2p_vod}
 
 \subsection{Codec Choice}
 
@@ -106,6 +191,7 @@ MCMF, Network Flow
 
 
 \section{A Case Study and Simulation }
+\label{sec:case}
 
 Our simulation platform roots from a commercial deployment
 of P2P system\cite{astri}, which has upgraded from P2P file downloading 
@@ -679,6 +765,7 @@ left as future work.
 
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 Here we conclude two pieces of experience from this study:
 	\begin{itemize}
@@ -726,6 +813,7 @@ Here we conclude two pieces of experience from this study:
 
 
 \section{Future Works}
+\label{sec:future}
 
 Here we list some potential research topics in an adaptive video streaming 
 system:

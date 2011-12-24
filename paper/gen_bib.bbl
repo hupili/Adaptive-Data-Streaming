@@ -29,6 +29,11 @@ J.~Byers, M.~Luby, and M.~Mitzenmacher.
   Computer and Communications Societies. Proceedings. IEEE}, volume~2, pages
   1143--1151. IEEE, 2001.
 
+\bibitem{chu2001case}
+Y.~Chu, S.~Rao, and H.~Zhang.
+\newblock A case for end system multicast.
+\newblock {\em Performance Evaluation Review}, 28(1; SPI):1--12, 2001.
+
 \bibitem{cui2003layered}
 Y.~Cui and K.~Nahrstedt.
 \newblock Layered peer-to-peer streaming.
@@ -206,6 +211,13 @@ M.~Wien, H.~Schwarz, and T.~Oelbaum.
 \newblock {\em Circuits and Systems for Video Technology, IEEE Transactions
   on}, 17(9):1194--1203, 2007.
 
+\bibitem{wu2011vod-rep}
+W.~Wu and J.~Lui.
+\newblock Exploring the optimal replication strategy in p2p-vod systems:
+  characterization and evaluation.
+\newblock In {\em INFOCOM, 2011 Proceedings IEEE}, pages 1206--1214. IEEE,
+  2011.
+
 \bibitem{xiao2008optimal3layered-3stage}
 X.~Xiao, Y.~Shi, and Y.~Gao.
 \newblock On optimal scheduling for layered video streaming in heterogeneous
@@ -225,11 +237,23 @@ X.~Xiao, Y.~Shi, B.~Zhang, and Y.~Gao.
 \newblock In {\em Communications, 2008. ICC'08. IEEE International Conference
   on}, pages 1807--1812. IEEE, 2008.
 
+\bibitem{zhang2006optimal}
+M.~Zhang, Y.~Xiong, Q.~Zhang, and S.~Yang.
+\newblock On the optimal scheduling for media streaming in data-driven overlay
+  networks.
+\newblock In {\em Proceedings of IEEE Globecom}, volume 2006. Citeseer, 2006.
+
 \bibitem{zhao2006improving}
 J.~Zhao, F.~Yang, Q.~Zhang, and Z.~Zhang.
 \newblock On improving the throughput of media delivery applications in
   heterogenous overlay network.
 \newblock In {\em Proc. IEEE Globecom}. Citeseer, 2006.
+
+\bibitem{zhou2011statistical}
+Y.~Zhou, T.Z.J. Fu, and D.M. Chiu.
+\newblock Statistical modeling and analysis of p2p replication to support vod
+  service.
+\newblock In {\em INFOCOM, 2011 Proceedings IEEE}, pages 945--953. IEEE, 2011.
 
 
 \bibitem{youtube} Youtube, Demo of User Controlled Adaptation, 
