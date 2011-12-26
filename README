@@ -1,0 +1,55 @@
+This project originates in the course IERG5270, 
+'Advanced Topics in P2P Networks'. 
+
+>> Motivation 
+
+Multilayer P2P Video Systems have drawn some research interest
+recently. This project aims at surveying related literature
+and providing a case study of one simulation platform. 
+Since Multi-Layer Codec is not the only choice of underlying 
+codec and P2P is not the only choice for networking design, 
+the author extends the topic to Adaptive Video Streaming. 
+
+>> Reading Suggestion
+
+The presentation slides and case study part of the paper 
+may contain some foreign languages, for they are based on 
+the ASTRI simulation platform. This platform is restricted
+to ASTRI related research use only. So I can not provide 
+the code here. If you're really interested the platform, 
+You'd better contact ASTRI directly. 
+
+The section 'Problem Scope' digests several papers in related 
+area. This may not be very well written due to lack of 
+experience and time to study them thoroughly. Nevertheless, 
+those works mentioned this paper can serve as a good starting
+point if you have interest in this topic. This is also the 
+motivation that I make this course project public. I'm afraid
+I'll never touch those stuffs after this project. There are 
+always something you won't do in the future if you do not do 
+it now. I write up this paper to facilitate others' potential 
+research. 
+
+>> Citation
+
+Anyone who are inspired by this project are welcome to use it 
+int their own study. Please cite this page properly. One suggested
+bibliograph entry is:
+----
+Pili Hu, 2011, Lightweight Distributing Toolset, https://github.com/hupili/Adaptive-Data-Streaming
+----
+One suggested BibTeX entry is:
+----
+@MISC{hu2011-cd2hop,
+	author = {Hu Pili},
+	title = {Lightweight Distributing Toolset},
+	howpublished = {https://github.com/hupili/Adaptive-Data-Streaming},
+	month = {12},
+	year = {2011},
+	note = {Adaptive Data Streaming, a Survey and Case Study},
+}
+----
+
+>> Contact
+
+HU, Pili: http://personal.ie.cuhk.edu.hk/~hpl011/
