@@ -60,7 +60,8 @@ MobiTeC, IE Department, CUHK \\
 \question
 
 \subsection{Paper Structure}
-In section(\ref{sec:gen_model}), we present a very general model 
+In section(\ref{sec:gen_model}), we propose 5 metrics and 
+present a very general model 
 of system design as well as several variations. In section(\ref{sec:problem_scope}), 
 we propose three problem scopes involved in adaptive video streaming. 
 We address the full design from three aspects: codec, networking and playback. 
@@ -136,27 +137,434 @@ from the very beginning.
 
 \subsection{Model 1}
 
+One optimization abstraction is:
+\begin{eqnarray}
+	\text{maximize}&& \text{QoE} \\
+	\text{minimize}&& \text{Cost} \nonumber 
+\end{eqnarray}
 
+QoE and Cost alone can be multi-dimensional. As is given in last 
+section, cost can be categorized into vendor cost, user cost, and 
+system cost. Note that this multi-objective model is intractable 
+since the two groups of objectives are opposite to each other 
+most time. Two simplifications are given in the following section. 
 
 \subsection{Model 1(a)}
 
+By constraining cost to be less than a certain level, 
+the original model becomes a single objective optimization. 
+$C_0$ can be chosen such that the cost is approximately 
+(but not necessarily)
+minimum. 
+
+\begin{eqnarray}
+	\text{maximize } && \text{QoE} \\
+	s.t. && \nonumber\\
+	\text{Cost} &\leq& C_0 \nonumber
+\end{eqnarray}
+
+This philosophy is widely seen in many works. i.e. set
+$C_0$ to be the largest amount of resources available, 
+and then optimize QoE(or QoS for simplicity) metrics. 
+It is not seen that people constrain resources
+(i.e. only use half download bandwidth) when QoE
+is not the maximum. 
 
 
 \subsection{Model 1(b)}
 
+By constraining QoE to be larger than a certain level, 
+the original model becomes a single objective optimization. 
+$Q_0$ can be chosen such that the QoE is approximately 
+(but not necessarily)
+maximum. 
+\begin{eqnarray}
+	\text{minimize } && \text{Cost} \\
+	s.t. && \nonumber\\
+	\text{QoE} &\geq & Q_0 \nonumber
+\end{eqnarray}
+
+This philosophy is widely accepted in the degisn of VoD. 
+Zhou proposed a statistical model\cite{zhou2011statistical}
+ to analyze the optimial 
+replication of VoD. In that work, QoE is guaranteed naturally
+by assuming the server as a backup at any time. So the rest
+of that work aims at minimizing server load. 
+
+
+\subsection{Comments on Models}
+
+Theoretical bound deduction is not seen in the scope 
+of video streaming, let alone adaptive video streaming. 
+In terms of adaptation, we want to know how the tradeoff
+between quality sacrifice and other metrics is, given 
+certain resources. This is generally Model 1(a), with 
+QoE decomposed into several parts. 
 
 
 \section{Problem Scope}
 \label{sec:problem_scope}
 
+We divide the problem from bottom up into three parts:
+\begin{itemize}
+	\item Codec. It determines how the video is coded, 
+	and what kind of adaptation it can have. 
+	This is not our research focus. However the 
+	choice of codes influences what we can do in the networking
+	design. 
+	\item Networking. This part solves the problem that how we
+	deliver data from server to all receivers efficiently, and 
+	meet certain playback requirements at the same time. Most 
+	of our work lies in this part. 
+	\item Playback. User actions and playback decisions are 
+	studied, so that we have a more clear direction when designing 
+	networking solutions. Again, this part is not our focus, but 
+	gives methodology and tool to facilitate networking design. 
+\end{itemize}
+
 \subsection{Codec}
+
+There are two types of adaptive codec:
+\begin{itemize}
+	\item Multi-Description Coding(MDC). MDC has been studied long ago 
+	in the field of information theory\cite{gamal1982achievable}. The basic
+	idea is to decompose video data into multiple descriptions. Descriptions
+	are independent of each other. With more descriptions received, the 
+	receiver can playback higher quality video. For a good survey, interested 
+	readers are recommended to \cite{wang2005mdc}. Some application 
+	of MDC in video streaming appeared around 2000, to name a few classical 
+	works, \cite{apostolopoulos2001reliable}, \cite{apostolopoulos2002multiple}. 
+	In \cite{apostolopoulos2002multiple}, Apostolopoulos combines MDC with 
+	CDN technology to provide multiple route for video streaming, thus higher
+	achieving higher error-resilience. 
+	
+	\item Multi-Layer Coding(MDC). MLC is different that data is organized 
+	layer by layer. Higher layers have dependency on low layers. 
+	H.264/SVC\cite{schwarz2007overview-svc} is the extension of 
+	H.264/AVC\cite{wiegand2003overview-avc}, which provides three types of 
+	scalability: spatial scalability, temporal scalability, and 
+	quality scalability. In academic study, temporal scalability is 
+	frequently used, for the resultant chunk size is a pyramid look 
+	structure. The temporal scalability relys on temporal predictions, 
+	in a I-P-B frames fashion. I-frame and P-frame is often put in 
+	the base layer, and B-frame forms enhancement layer(s) typically. 
+	The typical frame size is: I-frame $>$ P-frame $>$ B-frame. In this case, 
+	base layer is usually larger than enhancement layer. In industrial 
+	deployment, spatial scalability is more preferred in heterogeneous 
+	device distribution. i.e. a cellphone users have smaller screens. 
+	There is no incentive for them to download full sized version. 
+	If mere temporal scalability is used, they have probably have no choice
+	but to download the full sized base layer. The video will not playback 
+	smoothly. However, if spatial scalability is used, they can afford 
+	the smaller-sized version with better smoothness.  
+\end{itemize}
+
+Some important characteristics of the two types of coding 
+are summarized in table(\ref{tbl:comp_mdc_mlc}). 
+\begin{table}[htb]
+\centering
+\caption{Comparison of MDC and MLC}
+\label{tbl:comp_mdc_mlc}
+	\begin{tabular}{c|c|c}
+		\hline
+		Item & MDC & MLC \\
+		\hline
+		dependency & independent & dependent \\
+		coding efficiency & lower & higher \\
+		real deployment & less & more \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Another important consideration of codec is whether 
+it's variable bitrate or not:
+\begin{itemize}
+	\item Variable Bit Rate(VBR) may achieve higher coding 
+	efficiency. i.e. when the video is presenting a series of
+	consecutive static scenery, it can be coded very efficiently 
+	using motion vector compensation. The resultant bit stream 
+	may consist of a big I-frame followed by many small P- and 
+	B- frames. Observed in time domain, the bitrate is variable. 
+	\item Constant Bit Rate(CBR) works at making the bitrate nearly 
+	a constant. A common way is to add a feedback buffer to VBR coding
+	framework\cite{liu2003adaptive}. The encoder will adjust its 
+	quantization level according to buffer status, and make the overall 
+	bitrate oscillating around a constant. Two common problems are 
+	buffer overflow and buffer downflow. 
+\end{itemize}
+According to our survey, CBR is commonly used in previous works. This is 
+because the constant rate makes system design easier. i.e. in the desgin 
+of adaptive video streaming, people always try to prevent jitter
+(frequently switch between higher and lower quality). If the codec is
+VBR, the receiver may observe a "better bandwidth" when it downloads 
+some chunks faster. However, the real reason is the lower video bitrate
+during that period of time. If CBR is used, number of chunks downloaded 
+in unit time can better reflect the network condition. Thus, better
+control over quality adaptation can be achieved. 
+
 
 \subsection{Networking}
 
+We discuss three types of fundamental networking choices in 
+this section: multicast, unicast, P2P. 
+In real systems, designers may combine more than one
+methods together. i.e. in P2P VoD system desgin, peers can turn to 
+server for help. Some systems treat server as a normal peer. This 
+simpifies the system and is widely accepted in many studies. However, 
+server exihbits much larger capabilities than normal peers. 
+Distinguishing the server from normal peers and do some specific optimiztion
+may enhance the system. 
+In one measurement study of popular online video websites\cite{ierg5270}, 
+people found one of the largest vendors combines unicast and P2P together. 
+For hot movies, content is mainly streamed from peer to peer using UDP. 
+For cold movies, content is mainly streamed from server to peer using TCP. 
+
+\subsubsection{Multicast}
+The first stream of adaptive video streaming comes in the IP multicast 
+streaming. The reason is multicast has long been believed to be the 
+solution of streaming large amount of data. It has the property 
+that no redundant data tranverse a single link more than once. 
+
+In 1996, McCanne \cite{mccanne1996receiver} did some pioneering 
+work in the desgin of adaptive multicast streaming. He utilizes 
+multiple multicast groups, which transmit different layers. Peers
+subscribe and unsubscribe layers explicitly by joining and leaving 
+corresponding groups. Peers do joining experiments in a shared learning
+manner. 
+
+According to the number of multicast groups, we categorize those works
+into three classes:
+\begin{itemize}
+	\item Single group. The server sends video data through a single multicast
+	group. In this case, every receiver will get the same quality of 
+	video. This is unfair for users who have better network condition. 
+	Adaptation is generally performed at server side. Users can feedback 
+	their receiving rate/ratio to the server. 
+	\item One group per receiver. This is another extreme case compared 
+	with single group. The system uses as many groups as receivers. In this 
+	case, the multicast mechanism degrades to unicast. We'll discuss more about
+	the adaptation of unicast in the following section. With this design, 
+	largest fairness is achieved. However, the intermediate resource utilization 
+	is not very high, since many redundant flows tranverse a single physical link. 
+	\item Several groups. This is called Simucast in \cite{liu2003adaptive}, and 
+	also the fundamental choice of \cite{mccanne1996receiver}, 
+	\cite{bhattacharyya1998efficient}, \cite{byers2001fine}, etc. This method 
+	seeks for tradeoff between fairness and efficiency. The adaptation 
+	can be sender-driven, like \cite{bhattacharyya1998efficient}, 
+	or receiver-driven, \cite{mccanne1996receiver}, and is generally 
+	performed by subscribing/unsubscribing different groups.  
+\end{itemize}
+For a full survey till 2003, interested readers are recommended to \cite{liu2003adaptive}. 
+
+However, due to lack of globally deployed multicast infrastructure, 
+the multicast based adaptation technique is not used to stream video
+data to public audience. 
+
+
+\subsubsection{Unicast}
+
+With the rapid growth of Internet, networking infrastructure becomes more and more 
+powerful, so that they can support large amount of simultaneous unicast streams. 
+One of the advantages of IP multicast, efficiency, is no longer a major concern. 
+Besides, unicast has other extra advantages over multicast: easy to control, 
+can be connectionless or connection-oriented, better error resilience, etc.
+
+If unicast is used as the networking solution. The problem of adaptive 
+video streaming degrades to a flow control problem, which has been 
+well studied, like TFRC\cite{floyd2000equation}. 
+
+In 1999, Rejaie designed a mechanism in the context of unicast
+to stream scalable data to receiver\cite{rejaie1999quality}. 
+They utilize layered coding and Additive-Increase-Multiplicative-Decrease 
+mechanism. Their design works without any assumpations of loss patterns. 
+
+In 2001\cite{apostolopoulos2001reliable} and \cite{apostolopoulos2002multiple}, 
+respectively, Apostolopoulos designed another series of representative 
+unicast adaptation. Underlying codec used in their works is MDC. 
+Since MDC itself is error resilient, the emphasis of those works is to 
+design multi-path mechanism. If the data is streamed through a single path, 
+loss of data ususally happens in a batch. Multi-path can make the streaming 
+service more robust. Three of the proposed solutions are summarized below:
+\begin{itemize}
+	\item Source routing\cite{apostolopoulos2001reliable}. 
+	Ordinary IP route is destination based, but the source can specify 
+	a series of intermediate nodes in the option section of IP header.
+	Multiple paths can be achieved with the knowledge of network topology. 
+	However, this can never be a real story, since topology is confidential
+	to ISPs.  
+	\item Relay network\cite{apostolopoulos2001reliable}. 
+	This is a kind of proxy based approach. Video data will first be streamed
+	to multiple intermediate nodes. Those nodes can be semi-intelligent nodes, 
+	which simply decapsulates the IP packet and drop it back to the network again. 
+	Or the nodes can be full-intelligent nodes, forming an application level 
+	overlay. The latter one is the preliminary form of P2P, so we'll discuss about
+	it later. Relay network is applicable, but it creates multi-path at the cost
+	of higher delay(for extra hops of packets). 
+	\item Content Delivery Network(CDN)\cite{apostolopoulos2002multiple}. 
+	CDN emerged in the early 2000s. With thousands of edge content servers, 
+	the connections between client and the CDN is naturally a multi-path 
+	structure. In \cite{apostolopoulos2002multiple}, the authors deploy 
+	different descriptions across different content servers. Clients 
+	will connect to several near content servers. This framework is error
+	resilient. 
+\end{itemize}
+
+A very simple but non-trivial example of unicast adaptation is like Youtube
+\cite{youtube}. It provides several quality choices for the users, like 
+low definition, medium definition, and high definition. This is rigid 
+adaptation using priori knowledge by users. While flexible technical 
+adaptation solutions are wide studied, the most widely deployed 
+adaptive streaming follows this trend. 
+
+\subsubsection{P2P}
+
+Since the pioneering work of \cite{chu2001case}, P2P technology 
+emerged in the past decade. Several works like \cite{cui2003layered}
+extend those ideas used in mulilayer multicast streaming and use
+P2P technology to form the underlying overlay. 
+
+In \cite{dai2007maximizing}, Dai maximized throughput of P2P network 
+using commodity flow algorithm. Although the title contains "layered", 
+their work is more likely applicable with MDC. This is because 
+dependency between layers are not formulated in the model. Also, they 
+address the inter-layer fairness by allocating resources proportional 
+to the demand of the layer(better known as chunk size of each layer).
+In this work, each layer has its own overlay network. This differs 
+from most counterparts. 
+
+In 2002, Khan proposed the algorithm called HEU\cite{khan2002solving}. 
+He model the adaptive multimedia system using Multi Dimension Knapsack Problem(MMKP).
+HEU is a fast heuristic algorithm which can give suboptimal solution 
+within 6\% sacrifice to the optimal one. HEU proceeds by first choose
+one item from each group to get an initial feasible solution and
+iterates by exchanging item in each group to approximate optimal 
+solution. 
+
+PALS\cite{rejaie2003pals}, proposed by Rejaie, follows their prior work 
+in the context of unicast in 1999\cite{rejaie1999quality}. Many following 
+works follow the framework used in this paper. A 2D sliding window 
+is used to smooth the transient bandwidth variation. How to fill this 
+sliding window(also known as buffer map in other works) is the 
+chunk/peer selection strategy. Chunk selection and peer selection is closely 
+related with each other. People come up with different design. 
+Some of the works prefer peer selection first to present clear picture of 
+chunk availability for chunk selection strategy. Other works prefer 
+chunk selection first and assign chunk requests to available peers 
+according to measured network condition. The latter one is fine-grained, 
+and is adopted in PALS. As for overlay construction, PALS simply uses
+a random based initialization and random based update. 
+
+
+In 2007, Liu used MDC to provide incentives in an open 
+P2P video streaming system\cite{liu2007p2p-mdc}.
+Their work roots from the observation that even in a short period
+of time, there are bilateral flows between each pair of peers
+\cite{hei2007measurement}. In this case, the mature 
+Tit-For-Tat strategy used in BT can be adapted to the context
+of adaptive video streaming. With the help of MDC, peers 
+can get something to playback while being frequently 
+choked or unchoked. Thus poor peer won't starve to death 
+as is seen in many P2P file downloading systems. 
+One of the following work is \cite{liu2007incentive-mlayer}, 
+which utilizes MLC rather than MDC. Compared with \cite{liu2007p2p-mdc}, 
+\cite{liu2007incentive-mlayer} claims MLC has higher coding 
+efficiency. In 2009, the same group of researchers extend
+those work to address a full layered P2P system\cite{liu2009layerp2p}. 
+
+In \cite{qin2007improving}, Qin presents some work in the context 
+of mobile adaptive video streaming. Difference from wired network
+comes in many aspects: users are more interested in general content rather 
+than specific picture quality; mobility models like random waipoint 
+or random walk should be considered; need to support certain wireless 
+infrastructure characteristics, like 802.11 Auto-Rate Fallback. 
+
+LION\cite{zhao2006improving} uses alternative paths and network coding to 
+enhance layered
+P2P streaming. One of the drawbacks is that layers are considered in isolation. 
+Note that their only optimization objective is throughput, this may results 
+in some higher layer useless chunks, since layer dependency is not fully 
+considered. 
+
+In 2008, Xiao designed a finer tuned overlay called OCALS
+\cite{xiao2008ocals}. Traditional overlay construction is 
+done with the help of a centralized tracker. i.e. Chainsaw
+\cite{pai2005chainsaw} a random based overlay construction 
+method. In OCALS, peers enther the system using a few landmark 
+nodes, and explore the overlay in a BFS-like manner. They construct
+different overlays for different video layers from bottom up. 
+Neighbours in lower overlay networks are reused if they also subscribe 
+to higher layers. They overlay is expanded with the consideration 
+of both network condition and data availability. One edge is added
+only when this edge can help either side of the peers, or there are 
+no other choices. 
+
+In 2009, Xiao proposed the full design of a layered P2P 
+system\cite{xiao2009layerp2p}. The overlay construction is 
+OCALS\cite{xiao2008ocals} described in above paragraph. This work
+focus on buffer management and chunk selection. They proposed 
+a 3-section based framework. In each section, the strategy 
+targets at different optimization goals(metrics). The biggest 
+contribution in this paper is that they proposed 4 metrics
+specialized for adaptive video streaming. Metrics like throughput 
+is widely adopted in many P2P system evaluation. Others like 
+layer delivery ratio, useless packet ratio, and jitter(layer 
+subscribe/unsubscribe events). However, this work is majorly 
+heuristic. The definition of utility is crucial in the optimization 
+process. 
+
+Recently, Eberhard \cite{eberhard2010knapsack} followed the 
+Knapsack Problem based algorithms proposed in \cite{szkaliczki2010piece}. 
+They add some simulation and evaluation to the original work. 
+They aims at optimizing a given utility function. Although there 
+is no significant improvement compared with baseline
+(PALS,\cite{rejaie2003pals}), they have one highlight that greedy 
+algorithm of KP performs nearly as good as more complicated 
+algorithms but time complexity is much lower. There are some further 
+improvements to this algorithm. First, the greedy algorithm doesn't 
+require complete sort. Second, with a clear definition of utility, 
+the chunk selection priority can be deduced directly, and no 
+sorting is needed. Either ways can lower the client side cost. 
+
 \subsection{Playback}
+
+The last concern in adaptive data streaming is playback. It
+can be divided into two parts:
+\begin{itemize}
+	\item Playback decision. Playback decision influences the design
+	of networking. However, the author of this paper never see complete 
+	study of playback strategy, especially in the context of adaptive video 
+	streaming. Many of the works presented above use simple rules for playback 
+	decision. Most of them even don't mention it in the design of strategies. 
+	One common example is: wait for $a$ chunks are ready in the buffer; 
+	pause the video when buffer downflows; after the buffer is re-filled 
+	with $b$ chunks, continue to play again. If adaptive methods are introduced, 
+	say multilayer, the decison becomes more complex. Basically, the player 
+	should decide to wait for higher layer chunks or just play in sacrifice 
+	of certain quality. 
+	\item User model. In order to make rationale playback decisions, QoE
+	study is essential. In \cite{wang2011-perceptual} Wang uses subjective tests
+	to map QoS parameters to QoE metrics, Mean Opinion Score. The drawback 
+	of this kind of approach is lack of scalability. Instead, Dobrian
+	initiates the use of mass objective evaluation in video
+	streaming\cite{dobrian2011understanding}. They measure correlation
+	and information gain between different QoS paramters and user 
+	engagement. Although \cite{dobrian2011understanding} is scalable 
+	and the result is more reliable, their user model is preliminary. 
+	The only measure of user satisfaction level is engagement. 
+	Since there are no widely deployed adaptive video streaming system, 
+	we lack user action data. With those per action recorded data, 
+	maturer model from other disciplinaries like web serach, portal 
+	website, etc, can be borrowed to analyze QoE in adaptive video 
+	streaming. This helps us better understand the preference of users, 
+	and thus make more reasonable strategies. 
+\end{itemize}
 
 \section{Design of Adaptive P2P VoD System}
 \label{sec:p2p_vod}
+
+Not available in this version. 
+
+\question
 
 \subsection{Codec Choice}
 
@@ -165,8 +573,10 @@ from the very beginning.
 
 \subsection{Overlay Construction}
 
+%Chainsaw, \cite{pai2005chainsaw}, random constructed 
 
-\subsubsection{Construction with Prior Knowledge}
+%
+%\subsubsection{Construction with Prior Knowledge}
 
 
 \subsection{Peer Selection}
@@ -177,9 +587,9 @@ from the very beginning.
 
 \subsection{Chunck Selection}
 
-MMKP, Knapsack
-
-MCMF, Network Flow 
+%MMKP, Knapsack
+%
+%MCMF, Network Flow 
 
 
 
@@ -815,11 +1225,11 @@ Here we conclude two pieces of experience from this study:
 \section{Future Works}
 \label{sec:future}
 
-Here we list some potential research topics in an adaptive video streaming 
-system:
-\begin{itemize}
-	\item 
-\end{itemize} 
+%Here we list some potential research topics in an adaptive video streaming 
+%system:
+%\begin{itemize}
+%	\item 
+%\end{itemize} 
 
 For multilayer P2P VoD system, we list some potential research topics:
 \begin{itemize}
@@ -832,8 +1242,9 @@ For multilayer P2P VoD system, we list some potential research topics:
 	QoE and simulator performance. Theoretically speaking, QoE should only 
 	depend on strategies and irrelevant of simulator performance. 
 \end{itemize}
+(Not complete list. See my homepage for further amendments)
 
-
+\question
 
 \section*{Acknowledgements}
 \addcontentsline{toc}{section}{Acknowledgements}
@@ -852,7 +1263,7 @@ by Zheng Wen, HKU. Special thanks to those coding.
 \addcontentsline{toc}{section}{Appendix}
 
 
-\pagebreak
+%\pagebreak
 \addcontentsline{toc}{section}{References}
 \input{gen_bib.bbl}
 

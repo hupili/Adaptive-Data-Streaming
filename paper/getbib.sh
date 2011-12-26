@@ -9,6 +9,7 @@ declare -a LIB_BIB=( \
 "/home/hpl/library/database/multimedia/mylibrary.bib" 
 "/home/hpl/library/database/multimedia/QoE/mylibrary.bib" 
 "/home/hpl/library/database/statistics/mylibrary.bib" 
+"/home/hpl/library/database/general-networking/mylibrary.bib" 
 )
 
 rm -f tmp/all.bib

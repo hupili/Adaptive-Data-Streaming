@@ -62,6 +62,11 @@ M.~Eberhard, T.~Szkaliczki, H.~Hellwagner, L.~Szobonya, and C.~Timmerer.
   streaming techniques for peer-to-peer networks and social networking}, pages
   71--76. ACM, 2010.
 
+\bibitem{floyd2000equation}
+S.~Floyd, M.~Handley, J.~Padhye, and J.~Widmer.
+\newblock Equation-based congestion control for unicast applications.
+\newblock {\em ACM SIGCOMM Computer Communication Review}, 30(4):43--56, 2000.
+
 \bibitem{fu2010designing}
 T.Z.J. Fu, D.M. Chiu, and Z.~Lei.
 \newblock Designing qoe experiments to evaluate peer-to-peer streaming
@@ -84,6 +89,11 @@ A.E.L. Gamal and T.~Cover.
 V.K. Goyal.
 \newblock Multiple description coding: Compression meets the network.
 \newblock {\em Signal Processing Magazine, IEEE}, 18(5):74--93, 2001.
+
+\bibitem{hei2007measurement}
+X.~Hei, C.~Liang, J.~Liang, Y.~Liu, and K.W. Ross.
+\newblock A measurement study of a large-scale p2p iptv system.
+\newblock {\em Multimedia, IEEE Transactions on}, 9(8):1672--1687, 2007.
 
 \bibitem{huang2010simulation}
 J.~Huang, G.~Cheng, J.~Liu, D.M. Chiu, K.~Wu, and Z.~Lei.
