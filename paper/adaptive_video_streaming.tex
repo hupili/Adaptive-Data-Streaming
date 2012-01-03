@@ -525,6 +525,27 @@ require complete sort. Second, with a clear definition of utility,
 the chunk selection priority can be deduced directly, and no 
 sorting is needed. Either ways can lower the client side cost. 
 
+\subsubsection{Miscellaneous}
+
+Besides those discussion above, other related topics are:
+\begin{itemize}
+	\item Where to perform data drop? There are two major approach. 
+	One is to drop data at end hosts. Peers keep measuring 
+	network condition and decide how much packets to send to/ 
+	request from other peers. This is active flow control, 
+	studied in many previours works. The other approach relys 
+	partly on intermediate devices. If the intermediate devices
+	can distinguish between different priorities, we can set 
+	lower layer data to higher priority and vice versa(assume 
+	MLC is used). This is not possible in current infrastructure, 
+	but we've seen a chance in IPv6, which use traffic class to 
+	support priority differentiated service.  
+\end{itemize}
+
+\question
+
+(reference above)
+
 \subsection{Playback}
 
 The last concern in adaptive data streaming is playback. It
