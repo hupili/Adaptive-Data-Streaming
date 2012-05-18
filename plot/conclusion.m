@@ -46,14 +46,14 @@ data4 = [
 300	160	17112	3.40374401152701	4.04781892352465
 ] ;
 
-%exp11, performance optimization
-data5 = [
-300	160	13054	3.4268944406572	4.01065364594964
-300	160	12964	3.40867013710605	3.97871513437683
-300	160	8270	3.41751051988296	4.00205908350331
-300	160	12875	3.41525009800868	3.99045578482244
-300	160	9685	3.29832658707108	4.02171880965122
-] ;
+% %exp11, performance optimization
+% data5 = [
+% 300	160	13054	3.4268944406572	4.01065364594964
+% 300	160	12964	3.40867013710605	3.97871513437683
+% 300	160	8270	3.41751051988296	4.00205908350331
+% 300	160	12875	3.41525009800868	3.99045578482244
+% 300	160	9685	3.29832658707108	4.02171880965122
+% ] ;
 
 %exp12, 2nd section random
 data6 = [
@@ -69,12 +69,14 @@ name = {
 'pals',
 'p_pals',
 's_window',
-'perf_opt',
+% 'perf_opt',
 '2nd_rnd'
 } ;
-time = [data1(:, 3), data2(:, 3), data3(:, 3), data4(:, 3), data5(:, 3), data6(:, 3)] ;
+% time = [data1(:, 3), data2(:, 3), data3(:, 3), data4(:, 3), data5(:, 3), data6(:, 3)] ;
+time = [data1(:, 3), data2(:, 3), data3(:, 3), data4(:, 3), data6(:, 3)] ;
 % qoe = [data1(:, 5), data2(:, 5), data3(:, 5), data4(:, 5), data5(:, 5), data6(:, 5)] ;
-qoe = [data1(:, 4), data2(:, 4), data3(:, 4), data4(:, 4), data5(:, 4), data6(:, 4)] ;
+% qoe = [data1(:, 4), data2(:, 4), data3(:, 4), data4(:, 4), data5(:, 4), data6(:, 4)] ;
+qoe = [data1(:, 4), data2(:, 4), data3(:, 4), data4(:, 4), data6(:, 4)] ;
 figure
 boxplot(time, name) ;
 ylabel('Simulation Time') ;
@@ -90,12 +92,13 @@ name = {
 'pals',
 'p_pals',
 's_window',
-'perf_opt',
+% 'perf_opt',
 '2nd_rnd'
 } ;
-time = [data2(:, 3), data3(:, 3), data4(:, 3), data5(:, 3), data6(:, 3)] ;
-% qoe = [data2(:, 5), data3(:, 5), data4(:, 5), data5(:, 5), data6(:, 5)] ;
-qoe = [data2(:, 4), data3(:, 4), data4(:, 4), data5(:, 4), data6(:, 4)] ;
+% time = [data2(:, 3), data3(:, 3), data4(:, 3), data5(:, 3), data6(:, 3)] ;
+time = [data2(:, 3), data3(:, 3), data4(:, 3), data6(:, 3)] ;
+% qoe = [data2(:, 4), data3(:, 4), data4(:, 4), data5(:, 4), data6(:, 4)] ;
+qoe = [data2(:, 4), data3(:, 4), data4(:, 4), data6(:, 4)] ;
 figure ;
 boxplot(time, name) ;
 ylabel('Simulation Time') ;
