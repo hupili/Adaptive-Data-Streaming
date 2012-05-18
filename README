@@ -40,7 +40,7 @@ Pili Hu, 2011, Adaptive Data Streaming, https://github.com/hupili/Adaptive-Data-
 ----
 One suggested BibTeX entry is:
 ----
-@MISC{hu2011-cd2hop,
+@MISC{hu2011-ads,
 	author = {Hu Pili},
 	title = {Adaptive Data Streaming},
 	howpublished = {https://github.com/hupili/Adaptive-Data-Streaming},
